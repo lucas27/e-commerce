@@ -29,13 +29,11 @@ public class UserAuthenticated implements UserDetails{
 
     @Override
     public @Nullable String getPassword() {
-        // TODO Auto-generated method stub
         return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        // TODO Auto-generated method stub
         return user.getEmail();
     }
 
