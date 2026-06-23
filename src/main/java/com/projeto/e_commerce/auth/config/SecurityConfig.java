@@ -48,13 +48,17 @@ public class SecurityConfig {
                 auth -> {
                     auth.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll();
                     auth.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll();
-                    auth.requestMatchers("/Auth/register").permitAll();
-                    auth.requestMatchers("/Auth/login").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/Auth/teste").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/Auth/sign-up").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/Auth/sign-in").permitAll();
+                    // devido o oauth2 usar o SCOPE_, é bom utilizar hasAuthority
+                    // o hasRole, já adiciona quando for pesquisar o ROLE_
+                    // caso ainda for usar o hasRole, vai ter que criar um outro bean para configurar o oauth2ResourceServer
+                    auth.requestMatchers(HttpMethod.GET, "/Auth/teste").hasAuthority("SCOPE_ROLE_ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/product/**").hasAuthority("SCOPE_ROLE_ADMIN");
                     auth.anyRequest().authenticated();
                 })
                 // .formLogin(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults())
+                // .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(conf -> conf.jwt(Customizer.withDefaults()))
                 .build();
     }

@@ -33,14 +33,14 @@ public class AuthController {
     //     this.service = service;
     // }
 
-    @PostMapping("/signUp")
+    @PostMapping("/sign-up")
     @Operation(summary = "rota de criação de usuário", description = "ele manda a requisição para o rabbitmq e salva no banco de dados o usuário")
     public ResponseEntity<String> createUser(@RequestBody RegisterDto dto) {
         service.CreateUser(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body("usuario criado");
     }
     
-    @PostMapping("/signIn")
+    @PostMapping("/sign-in")
     @Operation(summary = "rota de login", description = "ele faz a validação de login do usuário por meio do authenticationManager")
     public ResponseEntity<String> login(@RequestBody @Valid LoginDto dto) {
         String token = service.authenticationLogin(dto);
