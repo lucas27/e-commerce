@@ -1,5 +1,5 @@
 package com.projeto.e_commerce.product.dto;
 
-public record CreateCategoryDto(
+public record CategoryDto(
     String name
 ) {}
