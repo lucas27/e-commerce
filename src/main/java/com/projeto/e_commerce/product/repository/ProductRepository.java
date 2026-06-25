@@ -16,5 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
     // Se usar o List<Product> vai ter um loop infinito por causa do relacionamento bidirecional no foreign key
     List<GetProductsDto> findAllByCategory_id(Integer categoryId, Pageable pageable);
     
-    // List<GetProducts> findByName(String name, Pageable pageable);
+    boolean existsByName(String name);
+
+    boolean existsByCategory_id(Integer categoryId);
 }
