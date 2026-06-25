@@ -8,6 +8,8 @@ import com.projeto.e_commerce.auth.dto.RegisterDto;
 import com.projeto.e_commerce.auth.service.AuthService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -20,10 +22,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+@Tag(name="auth")
 @RestController
 @RequestMapping("/Auth")
 @RequiredArgsConstructor
+@SecurityRequirement(name="bearerAuth")
 public class AuthController {
     
     private final AuthService service;
