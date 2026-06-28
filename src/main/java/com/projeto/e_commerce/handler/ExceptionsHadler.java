@@ -1,4 +1,4 @@
-package com.projeto.e_commerce.product.handler;
+package com.projeto.e_commerce.handler;
 
 import java.time.LocalDateTime;
 
@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.projeto.e_commerce.product.dto.ExceptionMessageDto;
-import com.projeto.e_commerce.product.exception.IdNotFoundException;
-import com.projeto.e_commerce.product.exception.EntityExistException;
+import com.projeto.e_commerce.exception.EntityExistException;
+import com.projeto.e_commerce.exception.IdNotFoundException;
+import com.projeto.e_commerce.exception.dto.ExceptionMessageDto;
 
 @RestControllerAdvice
 public class ExceptionsHadler {

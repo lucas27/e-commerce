@@ -1,4 +1,4 @@
-package com.projeto.e_commerce.product.dto;
+package com.projeto.e_commerce.exception.dto;
 
 import java.time.LocalDateTime;
 

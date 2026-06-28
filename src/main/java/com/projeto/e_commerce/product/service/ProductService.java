@@ -6,13 +6,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.projeto.e_commerce.exception.IdNotFoundException;
 import com.projeto.e_commerce.product.dto.CategoryDto;
 import com.projeto.e_commerce.product.dto.ProductDto;
 import com.projeto.e_commerce.product.dto.GetCategoriesDto;
 import com.projeto.e_commerce.product.dto.GetProductsDto;
 import com.projeto.e_commerce.product.entity.Category;
 import com.projeto.e_commerce.product.entity.Product;
-import com.projeto.e_commerce.product.exception.IdNotFoundException;
 import com.projeto.e_commerce.product.repository.CategoryRepository;
 import com.projeto.e_commerce.product.repository.ProductRepository;
 

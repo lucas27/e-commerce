@@ -2,8 +2,8 @@ package com.projeto.e_commerce.product.service;
 
 import org.springframework.stereotype.Component;
 
-import com.projeto.e_commerce.product.exception.IdNotFoundException;
-import com.projeto.e_commerce.product.exception.EntityExistException;
+import com.projeto.e_commerce.exception.EntityExistException;
+import com.projeto.e_commerce.exception.IdNotFoundException;
 import com.projeto.e_commerce.product.repository.CategoryRepository;
 import com.projeto.e_commerce.product.repository.ProductRepository;
 

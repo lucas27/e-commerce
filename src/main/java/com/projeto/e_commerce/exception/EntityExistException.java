@@ -1,4 +1,4 @@
-package com.projeto.e_commerce.product.exception;
+package com.projeto.e_commerce.exception;
 
 public class EntityExistException extends RuntimeException {
     public EntityExistException(String message) {
