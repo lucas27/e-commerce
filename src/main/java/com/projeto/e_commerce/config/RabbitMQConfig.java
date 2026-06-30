@@ -16,16 +16,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
-
     private String EXCHANGE = "topic_exchange";
     
     private String QUEUE_USER = "user.register";
-    private String QUEUE_ORDER = "order.created";
-    private String QUEUE_PAYMENT = "payment.confirmed";
+    private String QUEUE_ORDER_PAYMENT = "order.canceled";
+    private String QUEUE_ORDER = "order.approved";
 
     private String ROUTING_KEY_USER = "user.register";
-    private String ROUTING_KEY_order = "order.created";
-    private String ROUTING_KEY_payment = "payment.confirmed";
+    private String ROUTING_KEY_ORDER_CANCELED = "order.canceled";
+    private String ROUTING_KEY_ORDER_APPROVED = "order.approved";
     
     @Bean
     public TopicExchange topicExchange() {
@@ -39,12 +38,12 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue queueOrder() {
-        return new Queue(QUEUE_ORDER, true);
+        return new Queue(QUEUE_ORDER_PAYMENT, true);
     }
 
     @Bean
     public Queue queuePayment() {
-        return new Queue(QUEUE_PAYMENT, true);
+        return new Queue(QUEUE_ORDER, true);
     }
 
     @Bean
@@ -54,12 +53,12 @@ public class RabbitMQConfig {
 
     @Bean
     public Binding bindingOrder(Queue queueOrder, TopicExchange exchange) {
-        return BindingBuilder.bind(queueOrder).to(exchange).with(ROUTING_KEY_order);
+        return BindingBuilder.bind(queueOrder).to(exchange).with(ROUTING_KEY_ORDER_CANCELED);
     }
 
     @Bean
     public Binding bindingPayment(Queue queuePayment, TopicExchange exchange) {
-        return BindingBuilder.bind(queuePayment).to(exchange).with(ROUTING_KEY_payment);
+        return BindingBuilder.bind(queuePayment).to(exchange).with(ROUTING_KEY_ORDER_APPROVED);
     }
 
     @Bean
