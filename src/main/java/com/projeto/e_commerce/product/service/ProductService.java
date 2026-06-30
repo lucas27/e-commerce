@@ -30,7 +30,6 @@ public class ProductService {
     @Transactional
     public String addProduct(ProductDto dto) {
         validation.productException(dto.name());
-        validation.existProductByCategoryIdException(dto.categoryId());
 
         Category categoryId = categoryRepository.getReferenceById(dto.categoryId());
         
