@@ -2,10 +2,16 @@ package com.projeto.e_commerce.product.repository;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
 
 import com.projeto.e_commerce.product.dto.GetProductsDto;
 import com.projeto.e_commerce.product.entity.Product;
+
+import jakarta.persistence.LockModeType;
+
 import java.util.List;
+import java.util.Optional;
 
 
 public interface ProductRepository extends JpaRepository<Product, Integer>{
@@ -19,4 +25,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
     boolean existsByName(String name);
 
     boolean existsByCategory_id(Integer categoryId);
+
+    // permite obter um bloqueio exclusivo e impedir que os dados sejam lidos, atualizados ou excluídos.
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("FROM Product p WHERE p.id = :id")
+    Optional<Product> findByIdWithLock(Integer id);
 }
