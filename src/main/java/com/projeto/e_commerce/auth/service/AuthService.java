@@ -57,7 +57,8 @@ public class AuthService {
 
         Authentication auth = authenticationManager.authenticate(authenticationToken);
 
-        String tokenJWT = service.generateToken(auth);
+        Integer userId = repository.findOnlyIdByEmail(dto.login());
+        String tokenJWT = service.generateToken(auth, userId);
         
         return tokenJWT;
     } 
