@@ -20,7 +20,7 @@ public class JwtService {
 
     public String generateToken(Authentication authentication, Integer userId) {
         Instant now = Instant.now();
-        long expiry = 3600L;
+        long expiry = 86400L;
 
         // ele pega do getAuthorities() as roles passadas no UserAuthenticated, e faz todo o mapeamento pra pegar as ROLE_
         String scope = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));
