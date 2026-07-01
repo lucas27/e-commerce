@@ -26,12 +26,25 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import jakarta.servlet.DispatcherType;
 
 @Configuration
 @EnableWebSecurity
+// adiciona no swagger a autorização de usar jwt para acessar as rotas
+@SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, bearerFormat = "jwt", scheme = "bearer")
 public class SecurityConfig {
     private final CreateKey key;
+
+    // o requestMatchers não permite o uso do List do java.util, mas permite vetor de string
+    private static final String[] SWAGGER_ROUTES = {"/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"};
+
+    private final static String PRODUCT_PERMIT_ROUTES [] = {
+        "/product/products",
+        "/product/categories",
+        "/product/products/category"
+    };
 
     public SecurityConfig(CreateKey key) {
         this.key = key;
@@ -47,15 +60,18 @@ public class SecurityConfig {
             .authorizeHttpRequests(
                 auth -> {
                     auth.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll();
-                    auth.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll();
+                    auth.requestMatchers(SWAGGER_ROUTES).permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/Auth/sign-up").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/Auth/sign-in").permitAll();
                     // devido o oauth2 usar o SCOPE_, é bom utilizar hasAuthority
                     // o hasRole, já adiciona quando for pesquisar o ROLE_
                     // caso ainda for usar o hasRole, vai ter que criar um outro bean para configurar o oauth2ResourceServer
                     auth.requestMatchers(HttpMethod.GET, "/Auth/teste").hasAuthority("SCOPE_ROLE_ADMIN");
-                    auth.requestMatchers(HttpMethod.POST, "/product/**").hasAuthority("SCOPE_ROLE_ADMIN");
+                    // auth.requestMatchers("/product/**").hasAuthority("SCOPE_ROLE_ADMIN");
+                    auth.requestMatchers("/order/**").hasAuthority("SCOPE_ROLE_USER");
+                    auth.requestMatchers(HttpMethod.GET, PRODUCT_PERMIT_ROUTES).permitAll();
                     auth.anyRequest().authenticated();
+                    // auth.anyRequest().permitAll();
                 })
                 // .formLogin(Customizer.withDefaults())
                 // .httpBasic(Customizer.withDefaults())
