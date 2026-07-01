@@ -1,7 +1,6 @@
 package com.projeto.e_commerce.product.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 
 public record GetProductsDto(
@@ -10,8 +9,5 @@ public record GetProductsDto(
     String description,
     BigDecimal price,
     Integer stockQuantity,
-    String imageUrl,
-    LocalDateTime createdAt,
-    LocalDateTime updatedAt,
-    Integer categoryId
+    String imageUrl
 ) {}
