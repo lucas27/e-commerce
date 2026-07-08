@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { LucideCircleUser, LucideFileText, LucideLock, LucideLockKeyholeOpen, LucideUser } from '@lucide/angular';
+import { LucideCircleUser, LucideLock, LucideLockKeyholeOpen, LucideUser } from '@lucide/angular';
 import { RouterLink } from "@angular/router";
-import { NgIf } from "../../../../node_modules/@angular/common/types/_common_module-chunk";
 
 // ver static, readonly
 interface User {
