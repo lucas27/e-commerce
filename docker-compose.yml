@@ -1,0 +1,59 @@
+name: e-commerce
+services:
+  db:
+    container_name: postgres
+    image: postgres:14.23-alpine3.23
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=e-commerce
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - rede-interna
+    healthcheck: 
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:4.2.7-management-alpine
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBIT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBIT_PASS}
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - rede-interna
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+  app:
+    container_name: app
+    build: 
+      context: ./back-end
+      dockerfile: dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=build
+      - RABBIT_USER=${RABBIT_USER}
+      - RABBIT_PASS=${RABBIT_PASS}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+    ports:
+      - 8080:8080
+    networks:
+      - rede-interna
+    depends_on:
+      db:
+        condition: service_healthy
+networks:
+  rede-interna:
+    driver: bridge   
+
+volumes:
+  db_data:
+  rabbitmq_data:
