@@ -1,1 +1,47 @@
-<p>login works!</p>
+<main class="flex flex-col h-screen justify-center items-center bg-[#151418]">
+    <section class="flex flex-col border-3 rounded-xl p-10 gap-6 border-[#545454]">
+        <!-- simbolo de conta -->
+        <header class="flex flex-col items-center gap-3 ">
+            <svg size="100" color="white" lucideCircleUser></svg>
+        </header>
+        <!-- campo de email -->
+        <div class="flex flex-col">
+            <div class="flex flex-row justify-center items-center border-3 border-transparent ">
+                <div class="p-3 pl- pr-4 bg-[#1c1c1c] rounded-tl-lg rounded-bl-lg">
+                    <svg size="30" color="white" lucideUser></svg>
+                </div>
+                <input class="text-white border-3 border-transparent w-80 p-3 pl-2 bg-[#292b30] placeholder:text-[#e5e5e5] rounded-tr-lg rounded-br-lg"
+                #email type="text" name="email" placeholder="Usuário">
+            </div>
+            @if(viewMessageError.includes("login")) {
+                <app-validation-message [message]="messageError"></app-validation-message>
+            } 
+        </div>
+        <!-- campo de senha -->
+        <div class="flex flex-col">
+            <div class="flex flex-row justify-center items-center border-3 border-transparent ">
+                <button class="p-3 pl- pr-4 bg-[#1c1c1c] rounded-tl-lg rounded-bl-lg cursor-pointer active:cursor-default"
+                 (click)="changeVisibility()"
+                 >
+                 @if(viewPassword) {
+                     <svg size="30" color="white" lucideLockKeyholeOpen></svg>
+                    } @else {
+                        <svg size="30" color="white" lucideLock></svg>
+                    }
+                </button>
+                <input class="text-white border-3 border-transparent w-80 p-3 pl-2 bg-[#292b30] placeholder:text-[#e5e5e5] rounded-tr-lg rounded-br-lg"
+                 #password [type]="viewPassword ? 'text' : 'password'" name="password" placeholder="Senha">
+             </div>
+             @if(viewMessageError.includes("password")) {
+                <app-validation-message [message]="messageError"></app-validation-message>
+             }
+         </div>
+        <button class="border-3 p-2 bg-white rounded-xl cursor-pointer" 
+        (click)="getValue(email.value, password.value)" type="submit">Enviar</button>
+
+        <footer class="text-center text-white">
+            <a routerLink="/register">Criar uma conta</a>
+        </footer>
+    </section>
+</main>
+
