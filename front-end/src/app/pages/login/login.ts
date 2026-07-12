@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { LucideCircleUser, LucideLock, LucideLockKeyholeOpen, LucideUser } from '@lucide/angular';
 import { RouterLink } from '@angular/router';
@@ -54,3 +55,14 @@ export class Login {
     }
   }
 }
+=======
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-login',
+  imports: [],
+  templateUrl: './login.html',
+  styleUrl: './login.css',
+})
+export class Login {}
+>>>>>>> 80db5a919bccb7a906d62d2f8bd811b2b1754c4e
