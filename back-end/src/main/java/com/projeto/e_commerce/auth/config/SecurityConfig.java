@@ -21,6 +21,10 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.List;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -50,17 +54,34 @@ public class SecurityConfig {
         this.key = key;
     }
 
+    // configurar o cors manualmente para aceitar requisições do axios,
+    // mas prefire o @CrossOrigin pela facilidade
+    //  @Bean
+    // public CorsConfigurationSource corsConfigurationSource() {
+    //     CorsConfiguration config = new CorsConfiguration();
+    //     config.setAllowedOrigins(List.of("http://localhost:4200")); // Permite o Angular
+    //     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    //     // Use "*" temporariamente para garantir que nenhum header oculto do Axios trave a requisição
+    //     config.setAllowedHeaders(List.of("*")); 
+    //     config.setAllowCredentials(true);
+
+    //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    //     source.registerCorsConfiguration("/**", config);
+    //     return source;
+    // }
     
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configure(http))
+            // .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(
                 auth -> {
                     auth.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll();
                     auth.requestMatchers(SWAGGER_ROUTES).permitAll();
+                    auth.requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/Auth/sign-up").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/Auth/sign-in").permitAll();
                     // devido o oauth2 usar o SCOPE_, é bom utilizar hasAuthority
