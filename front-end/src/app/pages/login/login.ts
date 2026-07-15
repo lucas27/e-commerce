@@ -1,9 +1,8 @@
-<<<<<<< HEAD
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, Signal } from '@angular/core';
 import { LucideCircleUser, LucideLock, LucideLockKeyholeOpen, LucideUser } from '@lucide/angular';
 import { RouterLink } from '@angular/router';
 import { ValidationMessage } from '../component/validation-message/validation-message';
-import { Validation } from '../service/validation';
+import { email, form, FormField, minLength, required, submit, validate } from '@angular/forms/signals';
 
 // ver static, readonly
 interface User {
@@ -20,49 +19,72 @@ interface User {
     LucideLockKeyholeOpen,
     RouterLink,
     ValidationMessage,
+    FormField
   ],
-  // template: '<svg lucideLock></svg>',
   templateUrl: './login.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './login.css',
 })
 export class Login {
-  private accountLogin: User | null = null;
   protected viewPassword: boolean = false;
-  protected viewMessageError: string = '';
-  protected messageError: string = '';
-
-  private validation = inject(Validation);
-
-
+  
   changeVisibility() {
     this.viewPassword = !this.viewPassword;
     console.log(this.viewPassword);
   }
-
-  getValue(email: string, password: string) {
-    const verify = this.validation.validationAccount({ email, password });
-    this.viewMessageError = verify.viewMessageError;
-    this.messageError = verify.messageError;
-
-    if(!this.viewMessageError) {
-      this.accountLogin = {
-        login: email,
-        password: password,
+  
+  loginModel = signal<User>({
+    login: '',
+    password: ''
+  });
+  
+  loginForm = form(this.loginModel, (schemaPath) => {
+    // eu pensei em várias formas de fazer,
+    // mas nada fazia sentido em manter o service, 
+    // essa foi a melhor forma
+    
+    validate(schemaPath.login, ({value}) => {
+      const text = value();
+      if(!text) {
+        return {
+          kind: 'void', 
+          message: 'O campo de login não pode ficar vázio'
+        };
       };
-      console.log(this.accountLogin);
+      return null;
+    })
+    
+    required(schemaPath.password, {message: 'O campo de senha não pode ficar vázio'});
+    minLength(schemaPath.password, 8, {message: 'A senha não pode ser menor que 8 caracteres'})
+  });
 
-    }
+
+  onSubmit(event: Event) {
+    event.preventDefault();
+    
+    // ele só dispara qunado não há exceção do form, 
+    // fazendo com que o formulário não seja disparado
+    submit(this.loginForm, async () => {
+      const credentials = this.loginModel();
+      console.log(credentials)
+
+    })
+
   }
-}
-=======
-import { Component } from '@angular/core';
+  
+  // legacy method
+  // getValue(email: string, password: string) {
+  //   const verify = this.validation.validationAccount({ email, password });
+  //   this.viewMessageError = verify.viewMessageError;
+  //   this.messageError = verify.messageError;
 
-@Component({
-  selector: 'app-login',
-  imports: [],
-  templateUrl: './login.html',
-  styleUrl: './login.css',
-})
-export class Login {}
->>>>>>> 80db5a919bccb7a906d62d2f8bd811b2b1754c4e
+  //   if(!this.viewMessageError) {
+  //     this.accountLogin = {
+  //       login: email,
+  //       password: password,
+  //     };
+  //     console.log(this.accountLogin);
+
+  //   }
+  // }
+}
