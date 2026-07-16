@@ -14,6 +14,7 @@ public class CookieBearerTokenResolver implements BearerTokenResolver{
         this.cookieName = cookieName;
     }
 
+    // Extrai o JWT armazenado no Cookie HttpOnly
     @Override
     public String resolve(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, cookieName);
