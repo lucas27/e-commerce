@@ -10,10 +10,14 @@ import com.projeto.e_commerce.auth.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import org.apache.tomcat.util.http.SameSiteCookies;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 // import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +32,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RequestMapping("/Auth")
 @RequiredArgsConstructor
 @SecurityRequirement(name="bearerAuth")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class AuthController {
     
     private final AuthService service;
@@ -47,9 +51,18 @@ public class AuthController {
     
     @PostMapping("/sign-in")
     @Operation(summary = "rota de login", description = "ele faz a validação de login do usuário por meio do authenticationManager")
-    public ResponseEntity<String> login(@RequestBody @Valid LoginDto dto) {
+    public ResponseEntity<String> login(@RequestBody @Valid LoginDto dto, HttpServletResponse response) {
         String token = service.authenticationLogin(dto);
-        return ResponseEntity.ok().body(token);
+        ResponseCookie cookie = ResponseCookie.from("token", token)
+        .httpOnly(true) // Protege contra ataque de xss
+        .secure(false)
+        .path("/")
+        .maxAge(86400)
+        .sameSite(SameSiteCookies.LAX.toString()) // ele manda para o mesmo site, ou para o meu caso, localhost
+        .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());;
+        return ResponseEntity.ok().body("Login realizado");
     }
 
     @GetMapping("/teste")

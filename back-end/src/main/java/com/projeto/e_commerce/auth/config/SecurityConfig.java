@@ -20,11 +20,12 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import java.util.List;
+// import org.springframework.web.cors.CorsConfiguration;
+// import org.springframework.web.cors.CorsConfigurationSource;
+// import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+// import java.util.List;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -96,8 +97,15 @@ public class SecurityConfig {
                 })
                 // .formLogin(Customizer.withDefaults())
                 // .httpBasic(Customizer.withDefaults())
-                .oauth2ResourceServer(conf -> conf.jwt(Customizer.withDefaults()))
+                .oauth2ResourceServer(conf -> conf
+                    .bearerTokenResolver(bearerTokenResolver())
+                    .jwt(Customizer.withDefaults()))
                 .build();
+    }
+
+    @Bean
+    public BearerTokenResolver bearerTokenResolver() {
+        return new CookieBearerTokenResolver("token");
     }
 
     @Bean
