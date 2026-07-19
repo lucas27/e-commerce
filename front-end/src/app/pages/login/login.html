@@ -1,10 +1,12 @@
 <main class="flex flex-col h-screen justify-center items-center bg-[#151418]">
     <form (submit)="onSubmit($event)" class="flex flex-col border-3 rounded-xl p-10 gap-6 border-[#545454]">
-        <!-- simbolo de conta -->
+        <!-- ==== simbolo de conta ==== -->
         <header class="flex flex-col items-center gap-3 ">
             <svg size="100" color="white" lucideCircleUser></svg>
         </header>
-        <!-- campo de email -->
+        <!-- ==================================================== -->
+
+        <!-- ====== campo de email ====== -->
         <div class="flex flex-col">
             <div class="flex flex-row justify-center items-center border-3 border-transparent ">
                 <div class="p-3 pl- pr-4 bg-[#1c1c1c] rounded-tl-lg rounded-bl-lg">
@@ -14,13 +16,15 @@
                 [formField]="loginForm.login"
                 type="email" placeholder="Usuário">
             </div>
-            @if(loginForm.login().touched() && loginForm.login().invalid()) {
-                @for(errors of loginForm.login().errors(); track errors) {
-                    <app-validation-message [message]="errors.message"></app-validation-message>
-                }
-            }
+            <app-validation-message 
+            [isInvalid]="loginForm.login().invalid()"
+            [isTouched]="loginForm.login().touched()"
+            [error]="loginForm.login().errors()"
+            ></app-validation-message>
         </div>
-        <!-- campo de senha -->
+        <!-- ======================================================= -->
+
+        <!-- ======== campo de senha ======= -->
         <div class="flex flex-col">
             <div class="flex flex-row justify-center items-center border-3 border-transparent ">
                 <button class="p-3 pl- pr-4 bg-[#1c1c1c] rounded-tl-lg rounded-bl-lg cursor-pointer active:cursor-default"
@@ -36,20 +40,27 @@
                  [formField]="loginForm.password" 
                  [type]="viewPassword ? 'text' : 'password'" placeholder="Senha">
              </div>
-             @if(loginForm.password().touched() && loginForm.password().invalid()) {
-                @for(errors of loginForm.password().errors(); track errors) {
-                    <app-validation-message [message]="errors.message"></app-validation-message>
-                }
-            }
+            <app-validation-message 
+                [isInvalid]="loginForm.password().invalid()"
+                [isTouched]="loginForm.password().touched()"
+                [error]="loginForm.password().errors()"
+            ></app-validation-message>
          </div>
+        <!-- ====================================================== -->
+        
+        <!-- ========= Botão de logar ========= -->
         <!-- <button class="border-3 p-2 bg-white rounded-xl cursor-pointer" 
         (click)="getValue(email.value, password.value)" type="submit">Enviar</button> -->
         <button class="border-3 p-2 bg-white rounded-xl cursor-pointer" 
         type="submit">Enviar</button>
+        <!-- =========================================================== -->
 
+        <!-- ====== botão de criar uma conta ====== -->
         <footer class="text-center text-white">
             <a routerLink="/register">Criar uma conta</a>
         </footer>
+        <!-- ========================================== -->
+
     </form>
 </main>
 
