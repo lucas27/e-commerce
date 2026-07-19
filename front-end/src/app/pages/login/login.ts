@@ -1,8 +1,9 @@
 import { Component, ChangeDetectionStrategy, inject, signal, Signal } from '@angular/core';
 import { LucideCircleUser, LucideLock, LucideLockKeyholeOpen, LucideUser } from '@lucide/angular';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ValidationMessage } from '../component/validation-message/validation-message';
-import { email, form, FormField, minLength, required, submit, validate } from '@angular/forms/signals';
+import { form, FormField, minLength, required, submit, validate } from '@angular/forms/signals';
+import axios from 'axios';
 
 // ver static, readonly
 interface User {
@@ -27,8 +28,9 @@ interface User {
 })
 export class Login {
   protected viewPassword: boolean = false;
-  
-  changeVisibility() {
+  private router = inject(Router);
+
+  changeVisibility():void {
     this.viewPassword = !this.viewPassword;
     console.log(this.viewPassword);
   }
@@ -59,17 +61,17 @@ export class Login {
   });
 
 
-  onSubmit(event: Event) {
+  onSubmit(event: Event):void {
     event.preventDefault();
-    
     // ele só dispara qunado não há exceção do form, 
     // fazendo com que o formulário não seja disparado
     submit(this.loginForm, async () => {
       const credentials = this.loginModel();
-      console.log(credentials)
-
+      await axios.post("http://localhost:8080/Auth/sign-in", credentials, {
+        withCredentials: true
+      });
     })
-
+    this.router.navigate(['/'])
   }
   
   // legacy method
