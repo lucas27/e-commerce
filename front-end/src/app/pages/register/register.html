@@ -1,1 +1,87 @@
-<p>register works!</p>
+<main class="flex justify-center items-center h-screen bg-[#151418]">
+    <form
+    // tem duas formas de fazer a mesma coisa
+    // tudo seria feito dentro do form()
+    // [formRoot]="createAccountForm()" 
+
+    (submit)="onSubmit($event)"
+    class="flex flex-col text-white gap-3 border-2 p-18 pb-10 pt-8 rounded-xl">
+        <div class="flex justify-center">
+            <svg size="90" lucideCircleUser></svg>
+        </div>
+        
+        <!-- ============ Campo nome ============ -->
+        <fieldset class="flex flex-col gap-1 w-2xs">
+            <label>Nome</label>
+            <input type="text" 
+            class="border-1 h-8 pl-2 rounded-md bg-[#1c1c1c]"
+            placeholder="Digite seu nome completo"
+            [formField]="createAccountForm.name"
+            >
+            <app-validation-message 
+            [isTouched]="createAccountForm.name().touched()"
+            [isInvalid]="createAccountForm.name().invalid()"
+            [error]="createAccountForm.name().errors()"
+            ></app-validation-message>
+            @if(createAccountForm().valid()){
+                <p>ola</p>
+            }
+        </fieldset>
+         <!-- =================================== -->
+
+        <!-- =========== Campo email ============ -->
+        <fieldset class="flex flex-col gap-1 w-2xs">
+            <label>E-mail</label>
+            <input type="email" 
+            class="border-1 h-8 pl-2 rounded-md bg-[#1c1c1c]"
+            placeholder="Digite seu E-mail"
+            [formField]="createAccountForm.email"
+            >
+            <app-validation-message 
+            [isTouched]="createAccountForm.email().touched()"
+            [isInvalid]="createAccountForm.email().invalid()"
+            [error]="createAccountForm.email().errors()"
+            ></app-validation-message>
+        </fieldset>
+         <!-- =================================== -->
+
+        <!-- ========= Campo senha =========== -->
+        <fieldset class="flex flex-col gap-1 w-2xs">
+            <label>Senha</label >
+            <input type="password" 
+            class="border-1 h-8 pl-2 rounded-md bg-[#1c1c1c]"
+            placeholder="Digite sua senha"
+            [formField]="createAccountForm.password"
+            >
+            <app-validation-message 
+            [isTouched]="createAccountForm.password().touched()"
+            [isInvalid]="createAccountForm.password().invalid()"
+            [error]="createAccountForm.password().errors()"
+            ></app-validation-message>
+        </fieldset>
+        <!-- =================================== -->
+        
+        <!-- ====== Campo senha novamente ====== -->
+        <fieldset class="flex flex-col gap-1 w-2xs">
+            <label>Confirmar senha</label>
+            <input type="password" 
+            class="border-1 h-8 pl-2 rounded-md bg-[#1c1c1c]"
+            placeholder="Digite novamente"
+            [formField]="createAccountForm.againPassword"
+            >
+            <app-validation-message 
+            [isTouched]="createAccountForm.againPassword().touched()"
+            [isInvalid]="createAccountForm.againPassword().invalid()"
+            [error]="createAccountForm.againPassword().errors()"
+            ></app-validation-message>
+        </fieldset>
+         <!-- =================================== -->
+
+        <!-- ======= Campo do botão submit ======== -->
+        <div class="flex justify-center pt-5">
+            <button type="submit"
+            class=" cursor-pointer border-2 p-3 rounded-xl bg-white text-black">Cadastrar</button>
+        </div>
+         <!-- =================================== -->
+    </form>
+</main>
