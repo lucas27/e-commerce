@@ -1,8 +1,9 @@
 import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
 import { form, FormField, submit } from '@angular/forms/signals';
-import { LucideCircleUser } from '@lucide/angular';
+import { LucideCircleUser, LucideEye, LucideEyeOff } from '@lucide/angular';
 import { ValidateRegisterForm } from './service/validate-register-form';
 import { ValidationMessage } from '../component/validation-message/validation-message';
+import { Password } from './component/password/password';
 
 interface validationRegister {
   name: string;
@@ -19,12 +20,22 @@ interface signUp {
 
 @Component({
   selector: 'app-register',
-  imports: [FormField, LucideCircleUser, ValidationMessage],
+  imports: [
+    FormField, 
+    LucideCircleUser,
+    Password,
+    ValidationMessage],
   templateUrl: './register.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './register.css',
 })
 export class Register {
+  protected ViewPassword:string = "password";
+
+  protected getValueFromComponent = (value: string): void => {
+    this.ViewPassword = value;
+  };
+
   private validation = inject(ValidateRegisterForm);
 
   private createAccountModel = signal<validationRegister>({

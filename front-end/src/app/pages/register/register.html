@@ -46,13 +46,21 @@
          <!-- =================================== -->
 
         <!-- ========= Campo senha =========== -->
-        <fieldset class="flex flex-col gap-1 w-2xs">
+        <fieldset class="flex flex-col gap-1">
             <label>Senha</label >
-            <input type="password" 
-            class="border-1 h-8 pl-2 rounded-md bg-[#1c1c1c]"
-            placeholder="Digite sua senha"
-            [formField]="createAccountForm.password"
-            >
+            <div class="flex flex-row relative items-center">
+                <input 
+                [type]="ViewPassword" 
+                class="border-1 h-8 pl-2 rounded-md bg-[#1c1c1c] w-2xs"
+                placeholder="Digite sua senha"
+                [formField]="createAccountForm.password"
+                >
+                <app-password
+                (password)="getValueFromComponent($event)" 
+                class="absolute right-2">
+                </app-password>
+            </div>
+            
             <app-validation-message 
             [isTouched]="createAccountForm.password().touched()"
             [isInvalid]="createAccountForm.password().invalid()"
@@ -62,13 +70,14 @@
         <!-- =================================== -->
         
         <!-- ====== Campo senha novamente ====== -->
-        <fieldset class="flex flex-col gap-1 w-2xs">
+        <fieldset class="flex flex-col gap-1">
             <label>Confirmar senha</label>
-            <input type="password" 
-            class="border-1 h-8 pl-2 rounded-md bg-[#1c1c1c]"
-            placeholder="Digite novamente"
-            [formField]="createAccountForm.againPassword"
-            >
+                <input 
+                [type]="ViewPassword" 
+                class="border-1 h-8 pl-2 rounded-md bg-[#1c1c1c] w-2xs"
+                placeholder="Digite novamente"
+                [formField]="createAccountForm.againPassword"
+                >
             <app-validation-message 
             [isTouched]="createAccountForm.againPassword().touched()"
             [isInvalid]="createAccountForm.againPassword().invalid()"
