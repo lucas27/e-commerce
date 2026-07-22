@@ -5,7 +5,7 @@
     // [formRoot]="createAccountForm()" 
 
     (submit)="onSubmit($event)"
-    class="flex flex-col text-white gap-3 border-2 p-18 pb-10 pt-8 rounded-xl">
+    class="flex flex-col text-white gap-3 border-2 p-18 pb-9 pt-8 rounded-xl">
         <div class="flex justify-center">
             <svg size="90" lucideCircleUser></svg>
         </div>
@@ -23,9 +23,6 @@
             [isInvalid]="createAccountForm.name().invalid()"
             [error]="createAccountForm.name().errors()"
             ></app-validation-message>
-            @if(createAccountForm().valid()){
-                <p>ola</p>
-            }
         </fieldset>
          <!-- =================================== -->
 
@@ -46,7 +43,7 @@
          <!-- =================================== -->
 
         <!-- ========= Campo senha =========== -->
-        <fieldset class="flex flex-col gap-1">
+        <fieldset class="flex flex-col gap-1 w-2xs">
             <label>Senha</label >
             <div class="flex flex-row relative items-center">
                 <input 
@@ -57,7 +54,7 @@
                 >
                 <app-password
                 (password)="getValueFromComponent($event)" 
-                class="absolute right-2">
+                class="absolute right-2 cursor-pointer active:cursor-progress">
                 </app-password>
             </div>
             
@@ -87,9 +84,9 @@
          <!-- =================================== -->
 
         <!-- ======= Campo do botão submit ======== -->
-        <div class="flex justify-center pt-5">
+        <div class="flex justify-center pt-2">
             <button type="submit"
-            class=" cursor-pointer border-2 p-3 rounded-xl bg-white text-black">Cadastrar</button>
+            [class]="`border-2 p-3 rounded-xl bg-white text-black ${createAccountForm().touched() ? 'cursor-not-allowed': 'cursor-pointer active:bg-gray-300 active:cursor-default'}`">Cadastrar</button>
         </div>
          <!-- =================================== -->
     </form>
