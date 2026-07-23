@@ -1,9 +1,11 @@
 import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
 import { form, FormField, submit } from '@angular/forms/signals';
-import { LucideCircleUser, LucideEye, LucideEyeOff } from '@lucide/angular';
+import { LucideCircleUser } from '@lucide/angular';
 import { ValidateRegisterForm } from './service/validate-register-form';
 import { ValidationMessage } from '../component/validation-message/validation-message';
 import { Password } from './component/password/password';
+import axios from 'axios';
+import { Router } from '@angular/router';
 
 interface validationRegister {
   name: string;
@@ -37,6 +39,7 @@ export class Register {
   };
 
   private validation = inject(ValidateRegisterForm);
+  private route = inject(Router);
 
   private createAccountModel = signal<validationRegister>({
     name: '',
@@ -55,16 +58,19 @@ export class Register {
   // onSubmit(){
     event.preventDefault();
 
-    const success = await submit(this.createAccountForm, async (schema) => {
+    await submit(this.createAccountForm, async (schema) => {
       
       const credentials:signUp = {
         name: schema.name().value(),
         email: schema.email().value(),
         password: schema.password().value() 
-      }
-      console.log(credentials);
+      };
+
+      const response = await axios.post('http://localhost:8080/Auth/sign-up', credentials);
       
+      if(response.status === 201) {
+        this.route.navigate(['/login']);
+      }
     });
-    console.log(success)
   }
 }
