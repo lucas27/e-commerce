@@ -1,7 +1,6 @@
 package com.projeto.e_commerce.auth.config;
 
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
-import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.web.util.WebUtils;
 
 import jakarta.servlet.http.Cookie;
