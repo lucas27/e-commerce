@@ -86,7 +86,7 @@
         <!-- ======= Campo do botão submit ======== -->
         <div class="flex justify-center pt-2">
             <button type="submit"
-            [class]="`border-2 p-3 rounded-xl bg-white text-black ${createAccountForm().touched() ? 'cursor-not-allowed': 'cursor-pointer active:bg-gray-300 active:cursor-default'}`">Cadastrar</button>
+            [class]="`border-2 p-3 rounded-xl bg-white text-black ${createAccountForm().invalid() ? 'cursor-not-allowed': 'cursor-pointer active:bg-gray-300 active:cursor-default'}`">Cadastrar</button>
         </div>
          <!-- =================================== -->
     </form>
