@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.projeto.e_commerce.exception.EntityExistException;
 import com.projeto.e_commerce.exception.IdNotFoundException;
 import com.projeto.e_commerce.exception.QuantityExceededException;
+import com.projeto.e_commerce.exception.UnauthorizedException;
 import com.projeto.e_commerce.exception.dto.ExceptionMessageDto;
 
 @RestControllerAdvice
@@ -51,6 +52,16 @@ public class ExceptionsHadler {
         ExceptionMessageDto dto = new ExceptionMessageDto();
 
         dto.setExceptionCode(HttpStatus.CONFLICT.value());
+        dto.setMessage(e.getMessage());
+        dto.setExceptionDateTime(LocalDateTime.now());
+        return ResponseEntity.status(dto.getExceptionCode()).body(dto);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ExceptionMessageDto> Exception(UnauthorizedException e) {
+        ExceptionMessageDto dto = new ExceptionMessageDto();
+
+        dto.setExceptionCode(HttpStatus.UNAUTHORIZED.value());
         dto.setMessage(e.getMessage());
         dto.setExceptionDateTime(LocalDateTime.now());
         return ResponseEntity.status(dto.getExceptionCode()).body(dto);
