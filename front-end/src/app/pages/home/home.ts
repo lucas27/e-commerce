@@ -1,12 +1,14 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Header } from './component/header/header';
 
 @Component({
   selector: 'app-home',
   // é necessário importar o RouterLink, sem ele o routerLink no html não funciona
-  imports: [RouterLink],
+  imports: [Header],
   templateUrl: './home.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './home.css',
 })
-export class Home {}
+export class Home {
+  
+}
