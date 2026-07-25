@@ -85,10 +85,11 @@ public class SecurityConfig {
                     auth.requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/Auth/sign-up").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/Auth/sign-in").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/Auth/validate").permitAll();
                     // devido o oauth2 usar o SCOPE_, é bom utilizar hasAuthority
                     // o hasRole, já adiciona quando for pesquisar o ROLE_
                     // caso ainda for usar o hasRole, vai ter que criar um outro bean para configurar o oauth2ResourceServer
-                    auth.requestMatchers(HttpMethod.GET, "/Auth/teste").hasAuthority("SCOPE_ROLE_ADMIN");
+                    // auth.requestMatchers(HttpMethod.GET, "/Auth/teste").hasAuthority("SCOPE_ROLE_ADMIN");
                     // auth.requestMatchers("/product/**").hasAuthority("SCOPE_ROLE_ADMIN");
                     auth.requestMatchers("/order/**").hasAuthority("SCOPE_ROLE_USER");
                     auth.requestMatchers(HttpMethod.GET, PRODUCT_PERMIT_ROUTES).permitAll();
