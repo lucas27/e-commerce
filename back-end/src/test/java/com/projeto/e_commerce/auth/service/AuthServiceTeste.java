@@ -42,14 +42,14 @@ public class AuthServiceTeste {
     void setUp() {
         String password = passwordEncoder.encode("12345678");
 
-        dto = new RegisterDto("lucas", "lucas@teste.com", password ,RoleEnum.ADMIN);
+        dto = new RegisterDto("lucas", "lucas@teste.com", password);
 
         user = new User();
 
         user.setName(dto.name());
         user.setEmail(dto.email());
         user.setPassword(dto.password());
-        user.setRole(dto.role());
+        user.setRole(RoleEnum.USER);
     }
 
     @Test
