@@ -1,0 +1,17 @@
+<ul class="flex flex-row justify-center border-3 h-20 items-center">
+    @for(category of categoryList; track category) {
+        <li 
+        class="flex h-10 w-30
+        justify-center
+        items-center
+        cursor-pointer 
+        hover:bg-blue-400
+        hover:rounded-lg 
+        active:cursor-default
+        active:h-9
+        active:w-29
+        select-none
+        "
+        >{{category}}</li>
+    }
+</ul>
