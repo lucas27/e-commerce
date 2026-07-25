@@ -67,11 +67,14 @@ export class Login {
     // fazendo com que o formulário não seja disparado
     submit(this.loginForm, async () => {
       const credentials = this.loginModel();
-      await axios.post("http://localhost:8080/Auth/sign-in", credentials, {
+      const response = await axios.post("http://localhost:8080/Auth/sign-in", credentials, {
         withCredentials: true
       });
+
+      if(response.status === 200) {
+        this.router.navigate(['/'])
+      }
     })
-    this.router.navigate(['/'])
   }
   
   // legacy method
