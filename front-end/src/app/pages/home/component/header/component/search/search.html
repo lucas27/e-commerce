@@ -1,0 +1,25 @@
+<div class="flex flex-col">
+    <div class="flex border-black border-3 h-12 max-w-100 rounded-xl">
+        <!-- =========== campo de pesquisa ============ -->
+        <input
+        class="pl-2 w-90 outline-none"
+        maxlength="40" 
+        type="text" placeholder="pesquisar produto" 
+        (input)="query.set($event.target.value)">
+        <!-- ========================================== -->
+        <!-- =========== botão de pesquisa ============ -->
+        <button 
+        class="flex w-12 justify-center items-center cursor-pointer"
+        type="button">
+            <svg lucideSearch></svg>
+        </button>
+        <!-- ========================================== -->
+    </div>
+    @if(debouncedQuery.value()) {
+        <div class="flex relative ">
+            <ul class="flex flex-col absolute bg-blue-400 w-100 top-[-8px] pl-2 rounded-sm">
+                <li class="flex h-10 items-center">{{debouncedQuery.value()}}</li>
+            </ul>
+        </div>
+    }
+</div>
