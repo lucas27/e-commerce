@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucideCircleUser } from '@lucide/angular';
 import axios from 'axios';
+import { AccountService } from './service/accountService';
 
 @Component({
   selector: 'app-account',
@@ -11,16 +12,21 @@ import axios from 'axios';
 })
 export class Account {
   public isLogged:boolean = false;
+  private service = inject(AccountService);
+  private Call$ = this.service.needCall$;
 
   private ref = inject(ChangeDetectorRef); 
 
   ngOnInit(){
-    this.validate();
+    if(this.Call$.getValue()) {
+      this.validate();
+    }
+    // console.log(this.Call$.getValue())
+    // this.validate();
   }
-  
+
   public async validate() {
     try {
-      
       const response = await axios.get("http://localhost:8080/Auth/validate", {
         withCredentials: true
       })
@@ -37,7 +43,6 @@ export class Account {
         // console.log(error.response?.data);
       }
     } finally {
-      console.log(document.cookie)
       this.ref.detectChanges();
     }
     // console.log(this.isLogged);

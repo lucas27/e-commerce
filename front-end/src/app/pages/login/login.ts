@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { ValidationMessage } from '../component/validation-message/validation-message';
 import { form, FormField, minLength, required, submit, validate } from '@angular/forms/signals';
 import axios from 'axios';
+import { AccountService } from '../home/component/header/component/account/service/accountService';
 
 // ver static, readonly
 interface User {
@@ -20,7 +21,7 @@ interface User {
     LucideLockKeyholeOpen,
     RouterLink,
     ValidationMessage,
-    FormField
+    FormField,
   ],
   templateUrl: './login.html',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -29,10 +30,16 @@ interface User {
 export class Login {
   protected viewPassword: boolean = false;
   private router = inject(Router);
+  private account = inject(AccountService);
+  private call$ = this.account.needCall$;
+  
+  ngOnInit() {
+    this.call$.next(false);
+  }
 
   changeVisibility():void {
     this.viewPassword = !this.viewPassword;
-    console.log(this.viewPassword);
+    // console.log(this.viewPassword);
   }
   
   loginModel = signal<User>({
@@ -72,6 +79,7 @@ export class Login {
       });
 
       if(response.status === 200) {
+        this.call$.next(true);
         this.router.navigate(['/'])
       }
     })

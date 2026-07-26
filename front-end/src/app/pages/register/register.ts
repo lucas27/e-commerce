@@ -6,6 +6,7 @@ import { ValidationMessage } from '../component/validation-message/validation-me
 import { Password } from './component/password/password';
 import axios from 'axios';
 import { Router } from '@angular/router';
+import { AccountService } from '../home/component/header/component/account/service/accountService';
 
 interface validationRegister {
   name: string;
@@ -33,6 +34,12 @@ interface signUp {
 })
 export class Register {
   protected ViewPassword:string = "password";
+  private service = inject(AccountService);
+  private call$ = this.service.needCall$;
+
+  ngOnInit() {
+    this.call$.next(false);
+  }
 
   protected getValueFromComponent = (value: string): void => {
     this.ViewPassword = value;
