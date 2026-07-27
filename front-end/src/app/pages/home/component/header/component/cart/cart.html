@@ -1,3 +1,10 @@
-<nav>
+<nav class="flex relative cursor-pointer active:cursor-default">
     <svg lucideShoppingCart></svg>
+    @if(qtdProducts > 0) {
+        <div 
+        class="flex absolute bottom-3 left-3 bg-red-300 aspect-square rounded-full w-7 h-7 items-center justify-center select-none">
+            {{qtdProducts}}
+        </div>
+    }
+    
 </nav>
