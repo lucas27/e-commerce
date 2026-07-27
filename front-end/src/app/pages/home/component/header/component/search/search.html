@@ -1,8 +1,8 @@
 <div class="flex flex-col">
-    <div class="flex border-black border-3 h-12 max-w-100 rounded-xl">
+    <div class="flex border-black border-3 h-12 max-w-150 rounded-xl focus-within:border-zinc-400">
         <!-- =========== campo de pesquisa ============ -->
         <input
-        class="pl-2 w-90 outline-none"
+        class="pl-2 w-140 outline-none"
         maxlength="40" 
         type="text" placeholder="pesquisar produto" 
         (input)="query.set($event.target.value)">
