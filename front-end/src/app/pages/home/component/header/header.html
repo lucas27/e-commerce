@@ -1,19 +1,22 @@
 <header class="flex flex-col gap-2 relative pt-5">
-    <!-- =============== sessão da conta ================= -->
-    <section class="flex flex-row absolute top-6 right-50">
-        <app-account />
+    <section class="flex flex-row justify-center gap-10">
+        <div class="w-100"></div>
+        
+        <!-- =============== sessão de pesquisa ============== -->
+        <app-search />
+        <!-- ================================================= -->
+        
+        <section class="flex flex-row justify-center items-center w-100 gap-50 max-w-100">
+            
+            <!-- =============== sessão da conta ================= -->
+            <app-account />
+            <!-- ================================================= -->
+            
+            <!-- ============== Sessão do carrinho =============== -->
+            <app-cart />
+            <!-- ================================================= -->
+        </section>
     </section>
-    <!-- ================================================= -->
-    <!-- ============== Sessão do carrinho =============== -->
-    <section class="flex flex-row absolute right-10">
-        <app-cart />
-    </section>
-    <!-- ================================================= -->
-    <!-- =============== sessão de pesquisa ============== -->
-    <section>
-        <app-search class="flex justify-center" />
-    </section>
-    <!-- ================================================= -->
     <!-- ============= sessão de categorias =============== -->
     <section>
         <app-category />
