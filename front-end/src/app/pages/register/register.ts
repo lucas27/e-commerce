@@ -1,12 +1,10 @@
-import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { form, FormField, submit } from '@angular/forms/signals';
 import { LucideCircleUser } from '@lucide/angular';
 import { ValidateRegisterForm } from './service/validate-register-form';
 import { ValidationMessage } from '../component/validation-message/validation-message';
 import { Password } from './component/password/password';
-import axios from 'axios';
-import { Router } from '@angular/router';
-import { AccountService } from '../home/component/header/component/account/service/accountService';
+import { AuthService } from '../../auth/service/auth-service';
 
 interface validationRegister {
   name: string;
@@ -33,20 +31,14 @@ interface signUp {
   styleUrl: './register.css',
 })
 export class Register {
-  protected ViewPassword:string = "password";
-  private service = inject(AccountService);
-  private call$ = this.service.needCall$;
+  private validation = inject(ValidateRegisterForm);
+  private auth = inject(AuthService);
 
-  ngOnInit() {
-    this.call$.next(false);
-  }
+  protected ViewPassword = signal<string>('password');
 
   protected getValueFromComponent = (value: string): void => {
-    this.ViewPassword = value;
+    this.ViewPassword.set(value);
   };
-
-  private validation = inject(ValidateRegisterForm);
-  private route = inject(Router);
 
   private createAccountModel = signal<validationRegister>({
     name: '',
@@ -72,12 +64,9 @@ export class Register {
         email: schema.email().value(),
         password: schema.password().value() 
       };
-
-      const response = await axios.post('http://localhost:8080/Auth/sign-up', credentials);
       
-      if(response.status === 201) {
-        this.route.navigate(['/login']);
-      }
+      this.auth.Register(credentials)
+      
     });
   }
 }

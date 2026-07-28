@@ -1,10 +1,9 @@
 import { Component, ChangeDetectionStrategy, inject, signal, Signal } from '@angular/core';
 import { LucideCircleUser, LucideLock, LucideLockKeyholeOpen, LucideUser } from '@lucide/angular';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ValidationMessage } from '../component/validation-message/validation-message';
 import { form, FormField, minLength, required, submit, validate } from '@angular/forms/signals';
-import axios from 'axios';
-import { AccountService } from '../home/component/header/component/account/service/accountService';
+import { AuthService } from '../../auth/service/auth-service';
 
 // ver static, readonly
 interface User {
@@ -29,14 +28,8 @@ interface User {
 })
 export class Login {
   protected viewPassword: boolean = false;
-  private router = inject(Router);
-  private account = inject(AccountService);
-  private call$ = this.account.needCall$;
+  private auth = inject(AuthService);
   
-  ngOnInit() {
-    this.call$.next(false);
-  }
-
   changeVisibility():void {
     this.viewPassword = !this.viewPassword;
     // console.log(this.viewPassword);
@@ -74,14 +67,7 @@ export class Login {
     // fazendo com que o formulário não seja disparado
     submit(this.loginForm, async () => {
       const credentials = this.loginModel();
-      const response = await axios.post("http://localhost:8080/Auth/sign-in", credentials, {
-        withCredentials: true
-      });
-
-      if(response.status === 200) {
-        this.call$.next(true);
-        this.router.navigate(['/'])
-      }
+      this.auth.login(credentials);
     })
   }
   

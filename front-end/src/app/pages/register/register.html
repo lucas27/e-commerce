@@ -47,7 +47,7 @@
             <label>Senha</label >
             <div class="flex flex-row relative items-center">
                 <input 
-                [type]="ViewPassword" 
+                [type]="ViewPassword()" 
                 class="border-1 h-10 pl-2 rounded-md bg-[#1c1c1c] w-2xs placeholder:text-[#e5e5e5]"
                 placeholder="Digite sua senha"
                 [formField]="createAccountForm.password"
@@ -70,7 +70,7 @@
         <fieldset class="flex flex-col gap-1">
             <label>Confirmar senha</label>
                 <input 
-                [type]="ViewPassword" 
+                [type]="ViewPassword()" 
                 class="border-1 h-10 pl-2 rounded-md bg-[#1c1c1c] w-2xs placeholder:text-[#e5e5e5]"
                 placeholder="Digite novamente"
                 [formField]="createAccountForm.againPassword"

@@ -1,8 +1,7 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucideCircleUser } from '@lucide/angular';
-import axios from 'axios';
-import { AccountService } from './service/accountService';
+import { AuthService } from '../../../../../../auth/service/auth-service';
 
 @Component({
   selector: 'app-account',
@@ -10,52 +9,26 @@ import { AccountService } from './service/accountService';
   templateUrl: './account.html',
   styleUrl: './account.css',
 })
-export class Account {
-  public isLogged:boolean = false;
-  private service = inject(AccountService);
-  private Call$ = this.service.needCall$;
+export class Account implements OnInit{
+  protected isLogged = signal(false);
+  private auth = inject(AuthService);
 
-  private ref = inject(ChangeDetectorRef); 
-
-  ngOnInit(){
-    if(this.Call$.getValue()) {
-      this.validate();
-    }
-    // console.log(this.Call$.getValue())
-    // this.validate();
+  async logout() {
+    const logout = await this.auth.logout();
+    this.isLogged.set(logout);
   }
 
-  public async validate() {
-    try {
-      const response = await axios.get("http://localhost:8080/Auth/validate", {
-        withCredentials: true
-      })
-
-      if(response.status === 200) {
-        this.isLogged = true;
-      }
-      
-      // console.log(response);
-      
-    }catch(error) {
-      if(axios.isAxiosError(error)){
-        console.error(error.response?.data);
-        // console.log(error.response?.data);
-      }
-    } finally {
-      this.ref.detectChanges();
-    }
-    // console.log(this.isLogged);
+  async isValid() {
+    const isValid = await this.auth.isValid();
+    this.isLogged.set(isValid);
+    sessionStorage.setItem('isCall', 'false');
   }
 
-  public async logout() {
-   const res =  await axios.post("http://localhost:8080/Auth/logout", {} ,{
-      withCredentials: true
-    })
-    if(res.status === 200) {
-      this.isLogged = false;
-      this.ref.detectChanges();
+  ngOnInit() {
+    const isCall$ = sessionStorage.getItem('isCall');
+    if(isCall$?.includes('true') || isCall$ === null) {
+      this.isValid();
     }
-    // console.log(res)
   }
+  
 }
